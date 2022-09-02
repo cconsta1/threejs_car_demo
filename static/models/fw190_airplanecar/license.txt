@@ -1,0 +1,11 @@
+Model Information:
+* title:	Fw190 Airplane/Car
+* source:	https://sketchfab.com/3d-models/fw190-airplanecar-00f6f2c0d6ed44ae933fafac90ca16a6
+* author:	Mateusz Woliński (https://sketchfab.com/jeandiz)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Fw190 Airplane/Car" (https://sketchfab.com/3d-models/fw190-airplanecar-00f6f2c0d6ed44ae933fafac90ca16a6) by Mateusz Woliński (https://sketchfab.com/jeandiz) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
