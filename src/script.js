@@ -108,9 +108,9 @@ let debugObject = {
 //     }
 // )
 
-gui.add(debugObject, "chassisPositionX", -20, 20, 0.001).name("chassisPositionX")
-gui.add(debugObject, "chassisPositionY", -20, 20, 0.001).name("chassisPositionY")
-gui.add(debugObject, "chassisPositionZ", -20, 20, 0.001).name("chassisPositionZ")
+// gui.add(debugObject, "chassisPositionX", -20, 20, 0.001).name("chassisPositionX")
+// gui.add(debugObject, "chassisPositionY", -20, 20, 0.001).name("chassisPositionY")
+// gui.add(debugObject, "chassisPositionZ", -20, 20, 0.001).name("chassisPositionZ")
 
 // gui.add(debugObject, "wheel1X", 0.5, 4, 0.1).name("position1X").onChange(
 //     () => {
