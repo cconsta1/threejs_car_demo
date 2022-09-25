@@ -1,8 +1,8 @@
-# Three.js Journey
+# Three.js and Cannon-es demo car
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
-Run this followed commands:
+Run the following commands:
 
 ``` bash
 # Install dependencies (only the first time)
