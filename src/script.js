@@ -122,7 +122,7 @@ let debugObject = {
 
 const carBody = new CANNON.Body({
     mass: 4,
-    shape: new CANNON.Box(new CANNON.Vec3(0.675, 0.69, 1.69)),
+    shape: new CANNON.Box(new CANNON.Vec3(1.38*0.5, 1.348*0.5, 3.376*0.5)),
     position: new CANNON.Vec3(0,6,0)
 })
 
@@ -170,10 +170,17 @@ wheelBody1.addShape(rearWheelShape, new CANNON.Vec3(), quaternion)
 let offsetZ = -0.12
 let offsetFront = -0.1
 
+// rear right wheel 0.6277589797973633, y: -1.027273178100586, z: -0.5173605680465698
+// rear left wheel -0.67516028881073, y: -1.030426025390625, z: -0.5171953439712524
+// front right wheel 0.7081910967826843, y: 1.3602045774459839, z: -0.5597286224365234
+// front left wheel -0.7411616444587708, y: 1.3820507526397705, z: -0.5590680837631226
+
+// body position 0.8819676637649536 y: 95.20069885253906 z: 82.88011169433594
+
 vehicle.addWheel({
     body: wheelBody1,
     //position: new CANNON.Vec3(-0.675, -0.5 , 1.2 + offsetZ),
-    position: new CANNON.Vec3(-0.6515, -0.517, 1.030),
+    position: new CANNON.Vec3(0.675, -0.517, 1.030),
     axis: new CANNON.Vec3(-1, 0, 0),
     direction: down
 })
@@ -184,27 +191,28 @@ const wheelBody2 = new CANNON.Body({ mass, material: wheelMaterial })
 wheelBody2.addShape(rearWheelShape, new CANNON.Vec3(), quaternion)
 vehicle.addWheel({
     body: wheelBody2,
-    position: new CANNON.Vec3(0.6515, -0.517, 1.027),
+    position: new CANNON.Vec3(-0.628, -0.517, 1.027),
     //position: new CANNON.Vec3(0.675, -0.5, 1.2 + offsetZ),
     axis: new CANNON.Vec3(1, 0, 0),
     direction: down
 })
 
 const wheelBody3 = new CANNON.Body({ mass, material: wheelMaterial })
-wheelBody3.addShape(rearWheelShape, new CANNON.Vec3(), quaternion)
+wheelBody3.addShape(frontWheelShape, new CANNON.Vec3(), quaternion)
 vehicle.addWheel({
     body: wheelBody3,
-    position: new CANNON.Vec3(-0.675, -0.5, -1.2 + offsetFront),
+    //position: new CANNON.Vec3(-0.675, -0.5, -1.2 + offsetFront),
+    position: new CANNON.Vec3(-0.741, -0.56, -1.36),
     axis: new CANNON.Vec3(-1, 0, 0),
     direction: down
 })
 
 
 const wheelBody4 = new CANNON.Body({ mass, material: wheelMaterial })
-wheelBody4.addShape(rearWheelShape, new CANNON.Vec3(), quaternion)
+wheelBody4.addShape(frontWheelShape, new CANNON.Vec3(), quaternion)
 vehicle.addWheel({
     body: wheelBody4,
-    position: new CANNON.Vec3(0.675, -0.5, -1.2 +  offsetFront),
+    position: new CANNON.Vec3(0.708, -0.56, -1.36),
     axis: new CANNON.Vec3(1, 0, 0),
     direction: down
 })
@@ -249,97 +257,92 @@ gltfLoader.load(
     (gltf) => {
         test = gltf.scene
 
+        console.log("Model")
+        console.log(test)
+
+        console.log("Children")
+        console.log(test.children)
+
+        console.log("Traverse")
+        console.log("Traverse")
+        console.log("Traverse")
+
         test.traverse(function (node) {
 
-            //console.log(node)
+            
 
-            // if (node.isMesh) {
+            // console.log(node.name)
+
+            // console.log(node.getWorldPosition(new THREE.Vector3()))
+
+            
+
+            if (node.isMesh) {
                 
-            //     //console.log(node)
+                console.log(node.name)
 
-            // }
+                //console.log(node.getWorldPosition(new THREE.Vector3()))
+
+                console.log(node.position)
+
+                console.log(node.parent)
+
+                console.log(node.parent.position)
+
+
+            }
         });
+
+        console.log("Out of traverse")
+        console.log("Out of traverse")
+        console.log("Out of traverse")
+
+        chassisMesh = test.getObjectByName("Body_blue_0", true)
+
+        console.log("Body_blue_0")
+        console.log(chassisMesh.getWorldPosition(new THREE.Vector3()))
+
+
 
         
         //chassisMesh.castShadow = true
 
-        // chassisMesh.position.copy(carBody.position)
-        // chassisMesh.quaternion.copy(carBody.quaternion)
+        chassisMesh.position.copy(carBody.position)
+        chassisMesh.quaternion.copy(carBody.quaternion)
 
-        let target = new THREE.Vector3(); 
-
-        //console.log(chassisMesh)
 
         // renderer.render(scene, camera)
 
         rearWheelMesh1 = test.getObjectByName("rear_right_wheel_rear_wheel_0")
-        //console.log(rearWheelMesh1.isMesh)
         rearWheelMesh2 = test.getObjectByName("rear_left_wheel_rear_wheel_0")
         frontWheelMesh1 = test.getObjectByName("front_right_wheel_front_wheel_0")
         frontWheelMesh2 = test.getObjectByName("front_left_wheel_front_wheel_0")
 
-        console.log(test.matrix)
-        console.log(test.matrixWorld)
+        // console.log(test.matrix)
+        // console.log(test.matrixWorld)
 
 
-        console.log(rearWheelMesh1.matrix)
-        console.log(rearWheelMesh1.matrixWorld)
-
+        // console.log(rearWheelMesh1.matrix)
+        // console.log(rearWheelMesh1.matrixWorld)
         
 
 
 
-
-        chassisMesh = test.getObjectByName("Body_blue_0", true)
-
-        console.log(chassisMesh.matrix)
-        console.log(chassisMesh.matrixWorld)
-
-        const tempVector3 = new THREE.Vector3()
-
-        //test.getWorldPosition(tempVector3)
-        //chassisMesh.position.copy(tempVector3)
-        //chassisMesh.position.copy(test.getWorldPosition(new THREE.Vector3()))
-        //chassisMesh.getWorldPosition(chassisMesh.position)
-
-        chassisMesh.position.set(0,0,0)
-
-        //chassisMesh.updateWorldMatrix()
-
-        // chassisMesh.getWorldPosition(new THREE.Vector3())
-
-        //chassisMesh.matrix.setPosition( target );
-
-        //chassisMesh.position.set(0.882,95.201,82.880)
-
-        // console.log(target)
-        // console.log(chassisMesh.matrix)
-        // console.log(chassisMesh.matrixWorld)
        
-        //chassisMesh.position.set(target.x, target.y, target.z)
-
-        
 
 
-
-        //test.getWorldPosition(chassisMesh.position)
-
-        //let part = test.getObjectByName("engine_part_engine001_0", true)
 
         let part = test.getObjectByName("engine_engine001_0", true)
 
+        console.log("engine_engine001_0")
+        console.log(part.getWorldPosition(new THREE.Vector3()))
         
 
-        // const tempVector3 = new THREE.Vector3()
-
-        // chassisMesh.getWorldPosition(tempVector3)
-        // part.position.copy(tempVector3)
-
-        // part.position.copy(part.getWorldPosition(new THREE.Vector3()))
-
-        // part.updateWorldMatrix()
-
         part.position.set(0.014, 0.952, -0.215)
+
+        // console.log("Engine Mesh World Position after setting position")
+        // console.log(part.getWorldPosition(new THREE.Vector3()))
+        // console.log(part.worldToLocal(new THREE.Vector3()))
 
         
         
@@ -359,6 +362,11 @@ gltfLoader.load(
         let part2 = test.getObjectByName("engine_part_engine001_0", true)
 
         part2.position.set(0.014+0.009, 0.952+0.353, -0.215-0.093)
+
+
+        
+
+        
 
         // chassisMesh.getWorldPosition(tempVector3)
         // part2.position.copy(tempVector3)
@@ -425,6 +433,11 @@ gltfLoader.load(
         // console.log(frontWheelMesh1.geometry.get)
         //console.log(frontWheelMesh1)
 
+        // console.log(frontWheelMesh1.getWorldPosition(new THREE.Vector3()))
+        // console.log(frontWheelMesh2.getWorldPosition(new THREE.Vector3()))
+        // console.log(rearWheelMesh1.getWorldPosition(new THREE.Vector3()))
+        // console.log(rearWheelMesh2.getWorldPosition(new THREE.Vector3()))
+
         scene.add(frontWheelMesh1)
         scene.add(frontWheelMesh2)
         scene.add(rearWheelMesh1)
@@ -434,6 +447,13 @@ gltfLoader.load(
 
         scene.add(chassisMesh)
 
+
+        
+
+
+        
+
+        //console.log(part2.getWorldPosition(new THREE.Vector3()))
         
 
 
@@ -453,9 +473,9 @@ gltfLoader.load(
         // console.log(box1.position)
         // console.log(box2.position)
 
-        //const bbox = new THREE.Box3().setFromObject(chassisBlue)
+        const bbox = new THREE.Box3().setFromObject(chassisMesh)
 
-        //console.log(bbox.getSize(new THREE.Vector3()))
+        console.log(bbox.getSize(new THREE.Vector3()))
         //console.log(bbox.getCenter(new THREE.Vector3()))
        
 
@@ -787,7 +807,7 @@ const tick = () => {
     // Physics
 
     world.fixedStep()
-    cannonDebugger.update()
+    //cannonDebugger.update()
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
