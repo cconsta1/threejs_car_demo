@@ -6,14 +6,17 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import * as CANNON from 'cannon-es'
 import CannonDebugger from 'cannon-es-debugger'
-import { Vec3 } from 'cannon-es'
+//import { Vec3 } from 'cannon-es'
+import { Sky } from 'three/examples/jsm/objects/Sky.js'
+
+
 // import { threeToCannon, ShapeType } from 'three-to-cannon';
 
 // console.log(threeToCannon)
 
 
 
-// let goal, follow
+//let goal, follow
 
 // let temp = new THREE.Vector3();
 // let dir = new THREE.Vector3();
@@ -34,6 +37,8 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+
+
 /**
  * Physics
  */
@@ -49,11 +54,12 @@ world.gravity.set(0, -9.82, 0)
 
 const groundBody = new CANNON.Body({
     type: CANNON.Body.STATIC,
-    shape: new CANNON.Plane()
-    // shape: new CANNON.Box(new CANNON.Vec3(120, 120, 0.01))
+    //shape: new CANNON.Plane()
+    shape: new CANNON.Box(new CANNON.Vec3(12, 0.01, 12))
 })
 
-groundBody.quaternion.setFromEuler(-Math.PI * 0.5, 0, 0 )
+//groundBody.quaternion.setFromEuler(-Math.PI * 0.5, 0, 0)
+groundBody.position.y += 0.05
 
 world.addBody(groundBody)
 
@@ -76,9 +82,9 @@ const cannonDebugger = new CannonDebugger(scene, world)
 
 
 let debugObject = {
-    boxX: 1.38/2,
-    boxY: 1.35/2,
-    boxZ: 3.38/2,
+    boxX: 1.38 / 2,
+    boxY: 1.35 / 2,
+    boxZ: 3.38 / 2,
     chassisPositionX: 0.,
     chassisPositionY: -0.9,
     chassisPositionZ: -0.76,
@@ -122,8 +128,8 @@ let debugObject = {
 
 const carBody = new CANNON.Body({
     mass: 4,
-    shape: new CANNON.Box(new CANNON.Vec3(1.38*0.5, 1.348*0.5, 3.376*0.5)),
-    position: new CANNON.Vec3(0,6,0)
+    shape: new CANNON.Box(new CANNON.Vec3(1.38 * 0.5, 1.348 * 0.5, 3.376 * 0.5)),
+    position: new CANNON.Vec3(0, 6, 0)
 })
 
 //carBody.quaternion.setFromEuler(0, -Math.PI , 0 )
@@ -180,7 +186,7 @@ let offsetFront = -0.1
 vehicle.addWheel({
     body: wheelBody1,
     //position: new CANNON.Vec3(-0.675, -0.5 , 1.2 + offsetZ),
-    position: new CANNON.Vec3(0.675, -0.517, 1.030),
+    position: new CANNON.Vec3(0.605, -0.517, 1.030),
     axis: new CANNON.Vec3(-1, 0, 0),
     direction: down
 })
@@ -217,14 +223,11 @@ vehicle.addWheel({
     direction: down
 })
 
-// vehicle.wheelBodies.forEach((wheelBody) => {
-//     wheelBody.angularDamping = .4
-// })
-
-
+vehicle.wheelBodies.forEach((wheelBody) => {
+    wheelBody.angularDamping = .4
+})
 
 vehicle.addToWorld(world)
-
 
 
 /**
@@ -239,72 +242,66 @@ gltfLoader.setDRACOLoader(dracoLoader)
 
 let test
 let chassisMesh;
-let chassisBlue;
 let rearWheelMesh1;
 let frontWheelMesh1;
 
 let rearWheelMesh2;
 let frontWheelMesh2;
 
-const axesHelper = new THREE.AxesHelper(8);
-scene.add(axesHelper);
-axesHelper.setColors(new THREE.Color('red'), new THREE.Color('green'), new THREE.Color('blue'))
-
-let engine;
+// const axesHelper = new THREE.AxesHelper(8);
+// axesHelper.setColors(new THREE.Color('red'), new THREE.Color('green'), new THREE.Color('blue'))
+// scene.add(axesHelper);
 
 gltfLoader.load(
     '/models/vintage_racing_car/vintage_racing_car_light.glb',
     (gltf) => {
         test = gltf.scene
 
-        console.log("Model")
-        console.log(test)
+        // console.log("Model")
+        // console.log(test)
 
-        console.log("Children")
-        console.log(test.children)
+        // console.log("Children")
+        // console.log(test.children)
 
-        console.log("Traverse")
-        console.log("Traverse")
-        console.log("Traverse")
+        // console.log("Traverse")
+        // console.log("Traverse")
+        // console.log("Traverse")
 
-        test.traverse(function (node) {
+        //test.traverse(function (node) {
 
-            
+
 
             // console.log(node.name)
 
             // console.log(node.getWorldPosition(new THREE.Vector3()))
 
-            
-
-            if (node.isMesh) {
-                
-                console.log(node.name)
-
-                //console.log(node.getWorldPosition(new THREE.Vector3()))
-
-                console.log(node.position)
-
-                console.log(node.parent)
-
-                console.log(node.parent.position)
 
 
-            }
-        });
+            //if (node.isMesh) {
 
-        console.log("Out of traverse")
-        console.log("Out of traverse")
-        console.log("Out of traverse")
+                // console.log(node.name)
+
+                // //console.log(node.getWorldPosition(new THREE.Vector3()))
+
+                // console.log(node.position)
+
+                // console.log(node.parent)
+
+                // console.log(node.parent.position)
+
+
+            //}
+        //});
+
+        // console.log("Out of traverse")
+        // console.log("Out of traverse")
+        // console.log("Out of traverse")
 
         chassisMesh = test.getObjectByName("Body_blue_0", true)
 
-        console.log("Body_blue_0")
-        console.log(chassisMesh.getWorldPosition(new THREE.Vector3()))
+        // console.log("Body_blue_0")
+        // console.log(chassisMesh.getWorldPosition(new THREE.Vector3()))
 
-
-
-        
         //chassisMesh.castShadow = true
 
         chassisMesh.position.copy(carBody.position)
@@ -318,125 +315,28 @@ gltfLoader.load(
         frontWheelMesh1 = test.getObjectByName("front_right_wheel_front_wheel_0")
         frontWheelMesh2 = test.getObjectByName("front_left_wheel_front_wheel_0")
 
-        // console.log(test.matrix)
-        // console.log(test.matrixWorld)
-
-
-        // console.log(rearWheelMesh1.matrix)
-        // console.log(rearWheelMesh1.matrixWorld)
-        
-
-
-
-       
-
-
-
         let part = test.getObjectByName("engine_engine001_0", true)
 
-        console.log("engine_engine001_0")
-        console.log(part.getWorldPosition(new THREE.Vector3()))
-        
+        // console.log("engine_engine001_0")
+        // console.log(part.getWorldPosition(new THREE.Vector3()))
 
         part.position.set(0.014, 0.952, -0.215)
 
-        // console.log("Engine Mesh World Position after setting position")
-        // console.log(part.getWorldPosition(new THREE.Vector3()))
-        // console.log(part.worldToLocal(new THREE.Vector3()))
-
-        
-        
-        // engineModel.getWorldPosition(tempVector3)
-        // newEngineModel.position.copy(tempVector3)
-
-        //part.position.set(0.014,10.952,-0.215)
-
-        // part.updateMatrix()
-
-        // part.getWorldPosition(new THREE.Vector3())
-
         chassisMesh.add(part)
 
-       //chassisMesh.updateMatrixWorld()
+        //chassisMesh.updateMatrixWorld()
 
         let part2 = test.getObjectByName("engine_part_engine001_0", true)
 
-        part2.position.set(0.014+0.009, 0.952+0.353, -0.215-0.093)
-
-
-        
-
-        
-
-        // chassisMesh.getWorldPosition(tempVector3)
-        // part2.position.copy(tempVector3)
-        //part2.position.copy(part2.getWorldPosition(new THREE.Vector3()))
-
-        // part2.position.set(-0.166+0.014,0.360+0.952,0.048-0.215)
+        part2.position.set(0.014 + 0.009, 0.952 + 0.353, -0.215 - 0.093)
 
         chassisMesh.add(part2)
 
         let part3 = test.getObjectByName("engine_part002_engine001_0", true)
 
-        part3.position.set(0.014+0.009, 0.952+0.435, -0.215+0.131)
-
-        // chassisMesh.getWorldPosition(tempVector3)
-        // part3.position.copy(tempVector3)
-
-        // part3.position.set(0.009+0.014,0.435+0.952,0.131-0.215)
-
-       
+        part3.position.set(0.014 + 0.009, 0.952 + 0.435, -0.215 + 0.131)
 
         chassisMesh.add(part3)
-
-        //console.log(chassisMesh.isMesh)
-
-        
-
-        
-
-        // console.log(chassisMesh.matrixWorld)
-        // console.log(chassisMesh.matrix)
-
-
-        // engine = test.getObjectByName("engine_part_engine001_0", true)
-
-        // let target = new THREE.Vector3(); // create once an reuse it
-
-        // test.getWorldPosition(engine.position)
-
-        // console.log("YEAH")
-        // console.log(engine.getWorldPosition( target ));
-        // engine.position.set(target.x, target.y, target.z)
-        // console.log(rearWheelMesh1.getWorldPosition( target ));
-        // console.log(rearWheelMesh2.getWorldPosition( target ));
-        // console.log(frontWheelMesh1.getWorldPosition( target ));
-        // console.log(frontWheelMesh2.getWorldPosition( target ));
-        // console.log(chassisMesh.getWorldPosition( target ));
-
-
-
-
-        // console.log("YEAH")
-
-
-        // engine.add(test.getObjectByName("engine_part001_engine001_0", true))
-        // engine.add(test.getObjectByName("engine_part002_engine001_0", true))
-        // engine.add(test.getObjectByName("engine_engine001_0", true))
-
-
-        // // engine.position.z -= 0.7
-        // scene.add(engine)
-
-
-        // console.log("Front Wheel Mesh:")
-        // console.log(frontWheelMesh1.geometry.get)
-        //console.log(frontWheelMesh1)
-
-        // console.log(frontWheelMesh1.getWorldPosition(new THREE.Vector3()))
-        // console.log(frontWheelMesh2.getWorldPosition(new THREE.Vector3()))
-        // console.log(rearWheelMesh1.getWorldPosition(new THREE.Vector3()))
-        // console.log(rearWheelMesh2.getWorldPosition(new THREE.Vector3()))
 
         scene.add(frontWheelMesh1)
         scene.add(frontWheelMesh2)
@@ -447,82 +347,12 @@ gltfLoader.load(
 
         scene.add(chassisMesh)
 
+        // const bbox = new THREE.Box3().setFromObject(chassisMesh)
+        // console.log(bbox.getSize(new THREE.Vector3()))
 
-        
-
-
-        
-
-        //console.log(part2.getWorldPosition(new THREE.Vector3()))
-        
-
-
-        // const box = new THREE.BoxHelper(chassisMesh, 0xffff00);
-        //scene.add(box);
-
-        // const box1 = new THREE.BoxHelper(rearWheelMesh1, 0xffff00);
-        //scene.add(box1);
-
-        // const box2 = new THREE.BoxHelper(rearWheelMesh2, 0xffff00);
-        //scene.add(box2);
-
-        // const box3 = new THREE.BoxHelper(frontWheelMesh1, 0xffff00);
-        //scene.add(box3);
-
-        // console.log(box)
-        // console.log(box1.position)
-        // console.log(box2.position)
-
-        const bbox = new THREE.Box3().setFromObject(chassisMesh)
-
-        console.log(bbox.getSize(new THREE.Vector3()))
-        //console.log(bbox.getCenter(new THREE.Vector3()))
-       
-
-        // const bbox1 = new THREE.Box3().setFromObject(rearWheelMesh1)
-
-        //console.log(bbox1.getSize(new THREE.Vector3()))
-        //console.log(bbox1.getCenter(new THREE.Vector3()))
-
-        // const bbox2 = new THREE.Box3().setFromObject(rearWheelMesh2)
-
-        //console.log(bbox2.getSize(new THREE.Vector3()))
-        //console.log(bbox2.getCenter(new THREE.Vector3()))
-
-        // const bbox3 = new THREE.Box3().setFromObject(frontWheelMesh1)
-
-        //console.log(bbox3.getSize(new THREE.Vector3()))
-        //console.log(bbox3.getCenter(new THREE.Vector3()))
-
-        // const bbox4 = new THREE.Box3().setFromObject(frontWheelMesh2)
-
-        //console.log(bbox4.getSize(new THREE.Vector3()))
-        //console.log(bbox4.getCenter(new THREE.Vector3()))
-
-       
-
-        tick()
+        //tick()
     }
 )
-
-// let engine;
-
-// gltfLoader.load(
-//     '/models/engine/scene.glb',
-//     (gltf) => {
-//         engine = gltf.scene
-
-//         scene.add(engine)
-
-//         console.log("***********")
-
-//         console.log(engine.getWorldPosition(new THREE.Vector3()))
-//         console.log(engine.localToWorld(new THREE.Vector3()))
-
-//         console.log("***********")
-//     }
-// )
-
 
 /**
  * Experimental three.js car
@@ -558,43 +388,43 @@ gltfLoader.load(
  * Floor 
  */
 
-//const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader()
 
-// const occlusionTexture = textureLoader.load("/textures/Stylized_Sand_001_SD/Stylized_Sand_001_ambientOcclusion.jpg")
-// const baseTexture = textureLoader.load("/textures/Stylized_Sand_001_SD/Stylized_Sand_001_basecolor.jpg")
-// const heightTexture = textureLoader.load("/textures/Stylized_Sand_001_SD/Stylized_Sand_001_height.png")
-// const normalTexture = textureLoader.load("/textures/Stylized_Sand_001_SD/Stylized_Sand_001_normal.jpg")
-// const roughnessTexture = textureLoader.load("/textures/Stylized_Sand_001_SD/Stylized_Sand_001_roughness.jpg")
+const occlusionTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_ambientOcclusion.jpg")
+const baseTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_basecolor.jpg")
+const heightTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_height.png")
+const normalTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_normal.jpg")
+const roughnessTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_roughness.jpg")
 
 /**
  * Floor
  */
 
-// let plane = new THREE.PlaneGeometry(240, 240, 32, 32)
+let plane = new THREE.PlaneGeometry(24, 24, 32, 32)
 
 
-// const floor = new THREE.Mesh(
-//     plane,
-//     new THREE.MeshStandardMaterial({
-//         color: '#444444',
-//         metalness: 0,
-//         roughness: 0.8,
-//         // map : baseTexture,
-//         // aoMap : occlusionTexture,
-//         // aoMapIntensity : 0.9,
-//         // side : THREE.DoubleSide,
-//         // normalMap : normalTexture,
-//         // displacementMap : heightTexture,
-//         // displacementScale : 0.1,
-//         // roughnessMap : roughnessTexture
-//     })
-// )
-// floor.receiveShadow = true
-// floor.rotation.x = - Math.PI * 0.5
-// scene.add(floor)
+const floor = new THREE.Mesh(
+    plane,
+    new THREE.MeshStandardMaterial({
+        color: '#444444',
+        metalness: 0,
+        roughness: 0.8,
+        map: baseTexture,
+        aoMap: occlusionTexture,
+        aoMapIntensity: 0.9,
+        side: THREE.DoubleSide,
+        normalMap: normalTexture,
+        displacementMap: heightTexture,
+        displacementScale: 0.1,
+        roughnessMap: roughnessTexture
+    })
+)
+floor.receiveShadow = true
+floor.rotation.x = - Math.PI * 0.5
+//floor.position.set(0,0,-2.9)
+scene.add(floor)
 
-
-//floor.geometry.setAttribute('uv2', new THREE.BufferAttribute(floor.geometry.attributes.uv.array, 2))
+floor.geometry.setAttribute('uv2', new THREE.BufferAttribute(floor.geometry.attributes.uv.array, 2))
 
 /**
  * Lights
@@ -602,15 +432,16 @@ gltfLoader.load(
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
 scene.add(ambientLight)
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6)
-directionalLight.castShadow = true
-directionalLight.shadow.mapSize.set(1024, 1024)
-directionalLight.shadow.camera.far = 15
-directionalLight.shadow.camera.left = - 7
-directionalLight.shadow.camera.top = 7
-directionalLight.shadow.camera.right = 7
-directionalLight.shadow.camera.bottom = - 7
-directionalLight.position.set(- 5, 5, 0)
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9)
+directionalLight.position.set(5., 10., 7.5)
+// directionalLight.castShadow = true
+// directionalLight.shadow.mapSize.set(1024, 1024)
+// directionalLight.shadow.camera.far = 15
+// directionalLight.shadow.camera.left = - 7
+// directionalLight.shadow.camera.top = 7
+// directionalLight.shadow.camera.right = 7
+// directionalLight.shadow.camera.bottom = - 7
+// directionalLight.position.set(- 5, 5, 0)
 scene.add(directionalLight)
 
 /**
@@ -641,14 +472,16 @@ window.addEventListener('resize', () => {
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 10000)
 camera.position.set(0, 4, 0)
-camera.lookAt(scene.position);
-//goal = new THREE.Object3D();
-//follow = new THREE.Object3D();
-//follow.position.z = -coronaSafetyDistance;
-//chassisMesh.add(follow);
+// camera.lookAt(scene.position);
+// goal = new THREE.Object3D();
+// follow = new THREE.Object3D();
+// follow.position.z = -coronaSafetyDistance;
+// if(chassisMesh){
+// chassisMesh.add(follow);
+// }
 
-//goal.add(camera);
-//scene.add(camera)
+// goal.add(camera);
+scene.add(camera)
 
 // const helper = new THREE.CameraHelper( camera );
 // scene.add( helper );
@@ -689,114 +522,50 @@ const tick = () => {
     //frontWheelMesh1.rotation.x = -deltaTime * 40
     //frontWheelMesh2.rotation.x = -deltaTime * 40
 
-    
+    if (chassisMesh) {
 
-    
+        chassisMesh.position.copy(carBody.position)
+        chassisMesh.quaternion.copy(carBody.quaternion)
 
-    // GLTF car
-
-    // model.position.copy(chassisBody.position)
-    // model.quaternion.copy(chassisBody.quaternion)
-    // model.position.y = model.position.y + debugPosition.amount
-
-    // wheel1.position.copy(wheelBody1.position)
-    // wheel1.quaternion.copy(wheelBody1.quaternion)
-    // wheel1.rotateOnAxis(new THREE.Vector3(0, 1, 0), -Math.PI / 2)
-
-    // wheel4.position.copy(wheelBody2.position)
-    // wheel4.quaternion.copy(wheelBody2.quaternion)
-    // wheel4.rotateOnAxis(new THREE.Vector3(0, 1, 0), -Math.PI / 2)
-
-    // wheel2.position.copy(wheelBody3.position)
-    // wheel2.quaternion.copy(wheelBody3.quaternion)
-    // wheel2.rotateOnAxis(new THREE.Vector3(0, 0, 1), -Math.PI / 2)
+        chassisMesh.rotateX(-Math.PI / 2)
 
 
-    // wheel5.position.copy(wheelBody4.position)
-    // wheel5.quaternion.copy(wheelBody4.quaternion)
-    // wheel5.rotateOnAxis(new THREE.Vector3(0, 0, 1), -Math.PI / 2)
-
-
-    
-
-    // console.log(chassisMesh.position)
-    // console.log(carBody.position)
-
-    // Experimental three.js car
-
-    //chassisMesh.position.copy(carBody.position)
-    if(chassisMesh){
-
-    chassisMesh.position.copy(carBody.position)
-    chassisMesh.quaternion.copy(carBody.quaternion)
-
-    chassisMesh.rotateX(-Math.PI/2)
-
-    
+        // a.lerp(chassisMesh.position, 0.4);
+        // b.copy(goal.position);
     }
 
-    
-
-    // if(engine){
-    // engine.position.copy(carBody.position)
-    // engine.quaternion.copy(carBody.quaternion)
-    // engine.rotateX(Math.PI*1.5)
-    
-    // }
-    
-
-    // frontWheelMesh2.position.copy(wheelBody4.position)
-    // frontWheelMesh2.quaternion.copy(wheelBody4.quaternion)
-
-    // //frontWheelMesh2.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2)
-
-    
-
-    if(frontWheelMesh1){
-    frontWheelMesh1.position.copy(wheelBody3.position)
-    frontWheelMesh1.quaternion.copy(wheelBody3.quaternion)
+    if (frontWheelMesh1) {
+        frontWheelMesh1.position.copy(wheelBody3.position)
+        frontWheelMesh1.quaternion.copy(wheelBody3.quaternion)
     }
 
-    if(frontWheelMesh2){
-    frontWheelMesh2.position.copy(wheelBody4.position)
-    frontWheelMesh2.quaternion.copy(wheelBody4.quaternion)
+    if (frontWheelMesh2) {
+        frontWheelMesh2.position.copy(wheelBody4.position)
+        frontWheelMesh2.quaternion.copy(wheelBody4.quaternion)
     }
 
-    if(rearWheelMesh1){
-    rearWheelMesh1.position.copy(wheelBody1.position)
-    rearWheelMesh1.quaternion.copy(wheelBody1.quaternion)
+    if (rearWheelMesh1) {
+        rearWheelMesh1.position.copy(wheelBody1.position)
+        rearWheelMesh1.quaternion.copy(wheelBody1.quaternion)
     }
 
-    if(rearWheelMesh2){
-    rearWheelMesh2.position.copy(wheelBody2.position)
-    rearWheelMesh2.quaternion.copy(wheelBody2.quaternion)
+    if (rearWheelMesh2) {
+        rearWheelMesh2.position.copy(wheelBody2.position)
+        rearWheelMesh2.quaternion.copy(wheelBody2.quaternion)
     }
 
-    // //frontWheelMesh1.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2)
 
-    // rearWheelMesh1.position.copy(wheelBody1.position)
-    // rearWheelMesh1.quaternion.copy(wheelBody1.quaternion)
+    
 
-    // //rearWheelMesh1.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2)
-    // // rearWheelMesh1.rotation.y = Math.PI/2
+//     dir.copy(a).sub(b).normalize();
+//     const dis = a.distanceTo(b) - coronaSafetyDistance;
+//     goal.position.addScaledVector(dir, dis);
+//     goal.position.lerp(temp, 0.02);
+//     temp.setFromMatrixPosition(follow.matrixWorld);
 
-    // rearWheelMesh2.position.copy(wheelBody2.position)
-    // rearWheelMesh2.quaternion.copy(wheelBody2.quaternion)
-
-
-    //rearWheelMesh2.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2)
-    // rearWheelMesh2.rotation.y = Math.PI/2
-
-    // a.lerp(chassisMesh.position, 0.4);
-    // b.copy(goal.position);
-
-    // dir.copy(a).sub(b).normalize();
-    // const dis = a.distanceTo(b) - coronaSafetyDistance;
-    // goal.position.addScaledVector(dir, dis);
-    // goal.position.lerp(temp, 0.02);
-    // temp.setFromMatrixPosition(follow.matrixWorld);
-
-    // camera.lookAt(chassisMesh.position);
+//     if(chassisMesh){
+//     camera.lookAt(chassisMesh.position);
+// }
 
     // Update controls
     controls.update()
@@ -814,7 +583,7 @@ const tick = () => {
 }
 
 // Call tick when testing the experimental car
-//tick()
+tick()
 
 /**
  * Steering
@@ -1089,7 +858,7 @@ document.addEventListener('keyup', (event) => {
 //  [0.5118120908737183, 1.7200844287872314, -0.5779559016227722],
 //  [-0.46602094173431396, 1.7301393747329712, -0.5871725678443909],
 //  [-0.4587368667125702, 1.7406132221221924, -0.5793277621269226]]
- 
+
 //  let faces = [[14, 4, 9],
 //  [18, 9, 4],
 //  [18, 4, 16],
@@ -1476,41 +1245,41 @@ document.addEventListener('keyup', (event) => {
 //  [194, 183, 193],
 //  [194, 160, 142],
 //  [194, 142, 183]]
- 
+
 //  // console.log(vertices)
- 
+
 //  //console.log(faces[0][0], faces[0][1], faces[0][2])
- 
+
 //  let cannon_vertices = []
- 
+
 //  let cannon_faces = []
- 
+
 //  for (const ver of vertices) { 
 //      let x = ver[0]
 //      let y = ver[1]
 //      let z = ver[2]
 //      cannon_vertices.push(new CANNON.Vec3(x, y, z))
 //  }
- 
+
 //  for (const face of faces) { 
 //      let x = face[0]
 //      let y = face[1]
 //      let z = face[2]
 //      cannon_faces.push([x,y,z])
 //  }
- 
+
 //  console.log(cannon_vertices)
 //  console.log(faces)
 
- 
+
 //  const convexShape = new CANNON.ConvexPolyhedron(cannon_vertices, faces )
 //  const chassisBody = new CANNON.Body({ mass: 100, shape: convexShape, position: new Vec3(0,0,0) })
 
 //  console.log(convexShape)
 //  console.log(chassisBody)
- 
- 
- 
+
+
+
 
 
 //  const vehicle = new CANNON.RigidVehicle({
@@ -1585,10 +1354,53 @@ document.addEventListener('keyup', (event) => {
 // // })
 
 
+// Add Sky
 
+let sky = new Sky();
+sky.scale.setScalar(450000 * 0.1000);
+scene.add(sky);
 
+let sun = new THREE.Vector3();
 
+const effectController = {
+    turbidity: 6.7,
+    rayleigh: 0.165,
+    mieCoefficient: 0.,
+    mieDirectionalG: 0.865,
+    elevation: 13.7,
+    azimuth: 180,
+    exposure: renderer.toneMappingExposure
+};
 
+function guiChanged() {
+
+    const uniforms = sky.material.uniforms;
+    uniforms['turbidity'].value = effectController.turbidity;
+    uniforms['rayleigh'].value = effectController.rayleigh;
+    uniforms['mieCoefficient'].value = effectController.mieCoefficient;
+    uniforms['mieDirectionalG'].value = effectController.mieDirectionalG;
+
+    const phi = THREE.MathUtils.degToRad(90 - effectController.elevation);
+    const theta = THREE.MathUtils.degToRad(effectController.azimuth);
+
+    sun.setFromSphericalCoords(1, phi, theta);
+
+    uniforms['sunPosition'].value.copy(sun);
+
+    renderer.toneMappingExposure = effectController.exposure;
+    renderer.render(scene, camera);
+
+}
+
+// gui.add(effectController, 'turbidity', 0.0, 20.0, 0.1).onChange(guiChanged);
+// gui.add(effectController, 'rayleigh', 0.0, 4, 0.001).onChange(guiChanged);
+// gui.add(effectController, 'mieCoefficient', 0.0, 0.1, 0.001).onChange(guiChanged);
+// gui.add(effectController, 'mieDirectionalG', 0.0, 1, 0.001).onChange(guiChanged);
+// gui.add(effectController, 'elevation', 0, 90, 0.1).onChange(guiChanged);
+// gui.add(effectController, 'azimuth', - 180, 180, 0.1).onChange(guiChanged);
+// gui.add(effectController, 'exposure', 0, 1, 0.0001).onChange(guiChanged);
+
+guiChanged();
 
 // vehicle.addToWorld(world)
 
