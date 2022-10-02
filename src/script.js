@@ -237,7 +237,15 @@ vehicle.addToWorld(world)
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('/draco/')
 
-const gltfLoader = new GLTFLoader()
+const loadingManager = new THREE.LoadingManager(() => {
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.classList.add('fade-out');
+    loadingScreen.addEventListener('transitionend', onTransitionEnd);
+});
+
+
+
+const gltfLoader = new GLTFLoader(loadingManager)
 gltfLoader.setDRACOLoader(dracoLoader)
 
 let test
@@ -1406,3 +1414,9 @@ guiChanged();
 
 
 // console.log(vehicle)
+
+function onTransitionEnd(event) {
+
+    event.target.remove();
+
+}
