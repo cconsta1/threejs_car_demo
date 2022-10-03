@@ -1,5 +1,10 @@
 # Three.js and Cannon-es demo car
 
+This is a demo site that adds physics to a GLTF car.
+"Vintage Racing Car" [link](https://skfb.ly/o8wJy) by Mateusz Woliński 
+is licensed under Creative Commons Attribution
+[link](http://creativecommons.org/licenses/by/4.0/).
+
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
 Run the following commands:
