@@ -244,30 +244,44 @@ let frontWheelMesh2
 let engine
 let engine_part1
 let engine_part2
+let engine_part3
 
 // const axesHelper = new THREE.AxesHelper(8)
 // axesHelper.setColors(new THREE.Color('red'), new THREE.Color('green'), new THREE.Color('blue'))
 // scene.add(axesHelper)
 
 gltfLoader.load(
-    '/models/vintage_racing_car/vintage_racing_car_light.glb',
+    //'/models/vintage_racing_car/vintage_racing_car_light.glb',
+    '/models/vintage_racing_car/vintage_car_light_fixed.glb',
     (gltf) => {
         model = gltf.scene
 
-        //model.traverse(function (node) {
+
+        model.traverse(function (node) {
 
             // console.log(node.name)
 
             // console.log(node.getWorldPosition(new THREE.Vector3()))
 
-            //if (node.isMesh) {
+            if (node.isMesh) {
 
                 // console.log(node.name)
 
                 // console.log(node.parent)
 
-            //}
-        //})
+                
+
+
+                
+                node.material.side = THREE.DoubleSide
+                // node.material.opacity = 1
+                
+                node.material.transparent = false
+
+                //console.log(node.material)
+
+            }
+        })
 
         chassisMesh = model.getObjectByName("Body_blue_0", true)
 
@@ -292,7 +306,7 @@ gltfLoader.load(
 
         engine_part1 = model.getObjectByName("engine_part_engine001_0", true)
 
-        engine_part1.position.set(0.014 + 0.009, 0.952 + 0.353, -0.215 - 0.093)
+        engine_part1.position.set(0.014 - 0.166, 0.952 + 0.360, -0.215 + 0.048)
 
         chassisMesh.add(engine_part1)
 
@@ -301,6 +315,19 @@ gltfLoader.load(
         engine_part2.position.set(0.014 + 0.009, 0.952 + 0.435, -0.215 + 0.131)
 
         chassisMesh.add(engine_part2)
+
+        engine_part3 = model.getObjectByName("engine_part001_engine001_0", true)
+
+        engine_part3.position.set(0.014 + 0.009, 0.952 + 0.353, -0.215 - 0.093)
+
+        chassisMesh.add(engine_part3)
+
+        model.traverse(function (node) {
+            if(node.isMesh)
+            {
+                console.log(node.name)
+            }
+        })
 
         scene.add(frontWheelMesh1)
         scene.add(frontWheelMesh2)
