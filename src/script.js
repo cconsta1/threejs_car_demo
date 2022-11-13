@@ -485,6 +485,9 @@ scene.add(camera)
 const controls = new OrbitControls(camera, canvas)
 controls.target.set(0, 0.75, 0)
 controls.enableDamping = true
+controls.minDistance = 2
+controls.maxDistance = 60
+
 
 /**
  * Renderer
