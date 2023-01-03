@@ -7,19 +7,22 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import * as CANNON from 'cannon-es'
 import CannonDebugger from 'cannon-es-debugger'
 import { Sky } from 'three/examples/jsm/objects/Sky.js'
-// import { threeToCannon, ShapeType } from 'three-to-cannon'
 
 // console.log(threeToCannon)
 
 // Chase camera is not implemented yet
 
-//let goal, follow
+let chaseCamera, chaseCameraPivot
+let view = new THREE.Vector3()
 
-// let temp = new THREE.Vector3()
-// let dir = new THREE.Vector3()
-// let a = new THREE.Vector3()
-// let b = new THREE.Vector3()
-// let coronaSafetyDistance = 16.0
+
+
+const reset = document.getElementById("reset")
+reset.addEventListener('click', function(){
+    resetSpeeder()
+})
+
+
 
 /**
  * Base
@@ -49,7 +52,7 @@ world.gravity.set(0, -9.82, 0)
 const groundBody = new CANNON.Body({
     type: CANNON.Body.STATIC,
     //shape: new CANNON.Plane()
-    shape: new CANNON.Box(new CANNON.Vec3(12, 0.01, 12))
+    shape: new CANNON.Box(new CANNON.Vec3(36, 0.01, 36))
 })
 
 //groundBody.quaternion.setFromEuler(-Math.PI * 0.5, 0, 0)
@@ -322,6 +325,8 @@ gltfLoader.load(
 
         chassisMesh.add(engine_part3)
 
+        chassisMesh.add(chaseCamera)
+
         model.traverse(function (node) {
             if(node.isMesh)
             {
@@ -383,17 +388,34 @@ gltfLoader.load(
 
 const textureLoader = new THREE.TextureLoader()
 
+
 const occlusionTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_ambientOcclusion.jpg")
 const baseTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_basecolor.jpg")
 const heightTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_height.png")
 const normalTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_normal.jpg")
 const roughnessTexture = textureLoader.load("/textures/Stone_Floor_006_SD/Stone_Floor_006_roughness.jpg")
 
+occlusionTexture.wrapS = THREE.RepeatWrapping
+occlusionTexture.wrapT = THREE.RepeatWrapping
+occlusionTexture.repeat.set( 2, 2 )
+baseTexture.wrapS = THREE.RepeatWrapping
+baseTexture.wrapT = THREE.RepeatWrapping
+baseTexture.repeat.set( 2, 2 )
+heightTexture.wrapS = THREE.RepeatWrapping
+heightTexture.wrapT = THREE.RepeatWrapping
+heightTexture.repeat.set( 2, 2 )
+normalTexture.wrapS = THREE.RepeatWrapping
+normalTexture.wrapT = THREE.RepeatWrapping
+normalTexture.repeat.set( 2, 2 )
+roughnessTexture.wrapS = THREE.RepeatWrapping
+roughnessTexture.wrapT = THREE.RepeatWrapping
+roughnessTexture.repeat.sebase
+
 /**
  * Floor geometry
  */
 
-let plane = new THREE.PlaneGeometry(24, 24, 32, 32)
+let plane = new THREE.PlaneGeometry(64, 64, 32, 32)
 
 const floor = new THREE.Mesh(
     plane,
@@ -466,7 +488,7 @@ window.addEventListener('resize', () => {
 
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 10000)
-camera.position.set(0, 4, 0)
+//camera.position.set(0, 4, 0)
 // camera.lookAt(scene.position)
 // goal = new THREE.Object3D()
 // follow = new THREE.Object3D()
@@ -477,16 +499,17 @@ camera.position.set(0, 4, 0)
 
 // goal.add(camera)
 scene.add(camera)
+initChaseCamera()
 
 // const helper = new THREE.CameraHelper( camera )
 // scene.add( helper )
 
 // Orbit controls
-const controls = new OrbitControls(camera, canvas)
-controls.target.set(0, 0.75, 0)
-controls.enableDamping = true
-controls.minDistance = 2
-controls.maxDistance = 60
+// const controls = new OrbitControls(camera, canvas)
+// controls.target.set(0, 0.75, 0)
+// controls.enableDamping = true
+// controls.minDistance = 2
+// controls.maxDistance = 60
 
 
 /**
@@ -527,8 +550,8 @@ const tick = () => {
 
         chassisMesh.rotateX(-Math.PI / 2)
 
-        // a.lerp(chassisMesh.position, 0.4)
-        // b.copy(goal.position)
+        camera.lookAt(chassisMesh.position)
+
     }
 
     if (frontWheelMesh1) {
@@ -562,7 +585,9 @@ const tick = () => {
 // }
 
     // Update controls
-    controls.update()
+    //controls.update()
+
+    updateChaseCamera()
 
     // Render
     renderer.render(scene, camera)
@@ -708,3 +733,79 @@ function onTransitionEnd(event) {
 
 }
 
+function initChaseCamera() {
+    chaseCamera = new THREE.Object3D()
+    chaseCamera.position.set(0, 0, 0)
+
+    chaseCameraPivot = new THREE.Object3D()
+    chaseCameraPivot.position.set(0, -6, 2)
+
+    chaseCamera.add(chaseCameraPivot)
+
+    scene.add(chaseCamera)
+}
+
+function updateChaseCamera() {
+
+    chaseCameraPivot.getWorldPosition(view)
+
+    if (view.y < 1) {
+        view.y = 1
+    }
+
+    camera.position.lerpVectors(camera.position, view, 0.3)
+}
+
+
+function resetSpeeder(){
+    // vehicle.setWheelForce(0, 0)
+    // vehicle.setWheelForce(0, 1)
+    // vehicle.setSteeringValue(0, 2)
+    // vehicle.setSteeringValue(0, 3)
+    
+     
+    
+
+
+    // if (chassisMesh) {
+
+    //     carBody.velocity = new CANNON.Vec3(0,0,0)
+    // carBody.angularVelocity = new CANNON.Vec3(0,0,0)
+
+    // carBody.quaternion.set(0,0,0,1)
+    // chassisMesh.quaternion.copy(carBody.quaternion)
+
+    // carBody.position.set(0,6,0)
+    // chassisMesh.position.copy(carBody.position)
+
+    // }
+
+    // if (frontWheelMesh1) {
+    //     frontWheelMesh1.position.copy(wheelBody3.position)
+    //     frontWheelMesh1.quaternion.copy(wheelBody3.quaternion)
+    // }
+
+    // if (frontWheelMesh2) {
+    //     frontWheelMesh2.position.copy(wheelBody4.position)
+    //     frontWheelMesh2.quaternion.copy(wheelBody4.quaternion)
+    // }
+
+    // if (rearWheelMesh1) {
+    //     rearWheelMesh1.position.copy(wheelBody1.position)
+    //     rearWheelMesh1.quaternion.copy(wheelBody1.quaternion)
+    // }
+
+    // if (rearWheelMesh2) {
+    //     rearWheelMesh2.position.copy(wheelBody2.position)
+    //     rearWheelMesh2.quaternion.copy(wheelBody2.quaternion)
+    // }
+
+    console.log("Needs update")
+
+
+
+
+
+
+    
+}
