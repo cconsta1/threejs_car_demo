@@ -1,6 +1,4 @@
 import * as THREE from 'three'
-import * as CANNON from 'cannon-es'
-import CannonDebugger from 'cannon-es-debugger'
 import Sizes from "./Utils/Sizes.js"
 import Time from "./Utils/Time.js"
 import Camera from "./Camera.js"
@@ -60,7 +58,7 @@ export default class Experience {
     }
 
     update() {
-        this.camera.update()
+        //this.camera.update()
         this.renderer.update()
         this.worldPhysics.update()
         

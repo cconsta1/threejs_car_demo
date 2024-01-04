@@ -690,13 +690,13 @@ function guiChanged() {
 
 }
 
-// gui.add(effectController, 'turbidity', 0.0, 20.0, 0.1).onChange(guiChanged)
-// gui.add(effectController, 'rayleigh', 0.0, 4, 0.001).onChange(guiChanged)
-// gui.add(effectController, 'mieCoefficient', 0.0, 0.1, 0.001).onChange(guiChanged)
-// gui.add(effectController, 'mieDirectionalG', 0.0, 1, 0.001).onChange(guiChanged)
-// gui.add(effectController, 'elevation', 0, 90, 0.1).onChange(guiChanged)
-// gui.add(effectController, 'azimuth', - 180, 180, 0.1).onChange(guiChanged)
-// gui.add(effectController, 'exposure', 0, 1, 0.0001).onChange(guiChanged)
+gui.add(effectController, 'turbidity', 0.0, 20.0, 0.1).onChange(guiChanged)
+gui.add(effectController, 'rayleigh', 0.0, 4, 0.001).onChange(guiChanged)
+gui.add(effectController, 'mieCoefficient', 0.0, 0.1, 0.001).onChange(guiChanged)
+gui.add(effectController, 'mieDirectionalG', 0.0, 1, 0.001).onChange(guiChanged)
+gui.add(effectController, 'elevation', 0, 90, 0.1).onChange(guiChanged)
+gui.add(effectController, 'azimuth', - 180, 180, 0.1).onChange(guiChanged)
+gui.add(effectController, 'exposure', 0, 1, 0.0001).onChange(guiChanged)
 
 guiChanged()
 

@@ -17,17 +17,28 @@ export default class Resources extends EventEmitter {
 
         this.loaded = 0
 
+        // Create a loading manager
+        this.loadingManager = new THREE.LoadingManager(() => {
+            const loadingScreen = document.getElementById('loading-screen')
+            loadingScreen.classList.add('fade-out')
+            loadingScreen.addEventListener('transitionend', this.onTransitionEnd)
+        })
+
         this.setLoaders()
         this.startLoading()
+    }
+
+    onTransitionEnd(event) {
+        event.target.remove()
     }
 
     setLoaders() {
         this.loaders = {}
         this.loaders.dracoLoader = new DRACOLoader()
         this.loaders.dracoLoader.setDecoderPath('/draco/')
-        this.loaders.gltfLoader = new GLTFLoader()
+        this.loaders.gltfLoader = new GLTFLoader(this.loadingManager)
         this.loaders.gltfLoader.setDRACOLoader(this.dracoLoader)
-        this.loaders.textureLoader = new THREE.TextureLoader()
+        this.loaders.textureLoader = new THREE.TextureLoader(this.loadingManager)
     }
 
     startLoading() {
