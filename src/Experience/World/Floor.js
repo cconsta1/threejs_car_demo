@@ -82,7 +82,7 @@ export default class Floor {
 
         //console.log('floor')
         // this.body.quaternion.setFromEuler(-Math.PI * 0.5, 0, 0)
-        this.body.position.y += 0.005
+        this.body.position.y += 0.5
         
 
         this.worldPhysics.addBody(this.body)

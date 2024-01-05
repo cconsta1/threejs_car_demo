@@ -4,7 +4,7 @@ export default class CarController {
     constructor() {
         this.car = new Car() // Get the singleton instance of Car
         this.maxSteerVal = Math.PI / 8
-        this.maxForce = 5
+        this.maxForce = 10
 
         this.setSteering()
     }

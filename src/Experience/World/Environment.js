@@ -79,8 +79,8 @@ export default class Environment {
             rayleigh: 0.165,
             mieCoefficient: 0.,
             mieDirectionalG: 0.865,
-            elevation: 13.7,
-            azimuth: 180,
+            elevation: 10.,
+            azimuth: 166,
             exposure: this.experience.renderer.instance.toneMappingExposure
         }
 

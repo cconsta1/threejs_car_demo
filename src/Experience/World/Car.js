@@ -49,7 +49,7 @@ export default class Car {
         this.view = new THREE.Vector3()
 
         this.chaseCamera.position.set(0, 0, 0)
-        this.chaseCameraPivot.position.set(0, -6, 2)
+        this.chaseCameraPivot.position.set(0, -10, 1)
         this.chaseCamera.add(this.chaseCameraPivot)
         this.scene.add(this.chaseCamera)
 
