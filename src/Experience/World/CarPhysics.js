@@ -13,6 +13,7 @@ export default class CarPhysics {
         this.scene = this.experience.scene
 
         this.setPhysics()
+        this.setCollisionDetection()
     }
 
     setPhysics() {
@@ -81,6 +82,22 @@ export default class CarPhysics {
         this.scene.add(this.car.carModel.frontWheelMesh2)
         this.scene.add(this.car.carModel.rearWheelMesh1)
         this.scene.add(this.car.carModel.rearWheelMesh2)
+    }
+
+    setCollisionDetection() {
+        this.experience.worldPhysics.instance.addEventListener('beginContact', (event) => {
+            // const { bodyA, bodyB } = event
+
+            console.log(event)
+
+            // Check if one of the bodies is the car
+            // if (bodyA === this.vehicle.chassisBody || bodyB === this.vehicle.chassisBody) {
+            //     // The car has started colliding with something
+            //     // Reset the jump count
+            //     this.jumpCount = 0
+            //     console.log('Collision detected!')
+            // }
+        })
     }
 
     toCannonVec3(threeVec3) {

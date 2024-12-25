@@ -1,4 +1,7 @@
+import CannonDebugger from 'cannon-es-debugger'
 import Car from './Car.js'
+import * as CANNON from 'cannon-es'
+
 
 export default class CarController {
     constructor() {
@@ -35,6 +38,16 @@ export default class CarController {
                     this.car.vehicle.setSteeringValue(-this.maxSteerVal, 2)
                     this.car.vehicle.setSteeringValue(-this.maxSteerVal, 3)
                     break
+
+                case ' ':
+                    this.car.carPhysics.setCollisionDetection()
+                    
+                    // Apply an upward impulse at the center of mass
+                    this.car.vehicle.chassisBody.applyImpulse(new CANNON.Vec3(0, 60, 0), new CANNON.Vec3(0, 0, 0))
+
+                    console.log('Jump!')
+                    break
+
             }
         })
 
