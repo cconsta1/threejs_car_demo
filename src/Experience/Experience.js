@@ -38,7 +38,8 @@ export default class Experience {
         this.world = new World()
 
         this.world.resources.on('ready', () => {
-            this.car = this.world.car
+            // this.car = this.world.car
+            this.simpleCar = this.world.simpleCar
         })
 
         // Sizes resize event
@@ -62,8 +63,12 @@ export default class Experience {
         this.renderer.update()
         this.worldPhysics.update()
         
-        if (this.car) {
-            this.car.update()
+        // if (this.car) {
+        //     this.car.update()
+        // }
+
+        if (this.simpleCar) {
+            this.simpleCar.update()
         }
     }
 
