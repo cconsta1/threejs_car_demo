@@ -4,9 +4,7 @@ import Time from "./Utils/Time.js"
 import Camera from "./Camera.js"
 import Renderer from './Renderer.js'
 import World from './World/World.js'
-import Resources from './Utils/Resources.js'
 import Debug from './Utils/Debug.js'
-import sources from './sources.js'
 import PhysicsWorld from './PhysicsWorld.js'
 
 let instance = null
@@ -32,15 +30,24 @@ export default class Experience {
         this.time = new Time()
         this.scene = new THREE.Scene()
         this.worldPhysics = new PhysicsWorld(this.debug, this.scene)
-        this.resources = new Resources(sources)
         this.camera = new Camera()
         this.renderer = new Renderer()
+        
+        // Handle loading screen manually
+        const loadingScreen = document.getElementById('loading-screen')
+        setTimeout(() => {
+            loadingScreen.classList.add('fade-out')
+            loadingScreen.addEventListener('transitionend', (event) => {
+                event.target.remove()
+            })
+        }, 500)
+        
         this.world = new World()
-
-        this.world.resources.on('ready', () => {
-            // this.car = this.world.car
+        
+        // Access simpleCar directly from world
+        if (this.world.simpleCar) {
             this.simpleCar = this.world.simpleCar
-        })
+        }
 
         // Sizes resize event
         this.sizes.on('resize', () => {
@@ -59,14 +66,9 @@ export default class Experience {
     }
 
     update() {
-        //this.camera.update()
         this.renderer.update()
         this.worldPhysics.update()
         
-        // if (this.car) {
-        //     this.car.update()
-        // }
-
         if (this.simpleCar) {
             this.simpleCar.update()
         }
@@ -96,7 +98,5 @@ export default class Experience {
         if (this.debug.active) {
             this.debug.gui.destroy()
         }
-        // Remove the canvas
-        //this.canvas.remove()
     }
 }

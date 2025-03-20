@@ -1,7 +1,6 @@
 import * as CANNON from 'cannon-es'
 import Experience from '../Experience.js'
 import SimpleCar from './SimpleCar.js'
-import CannonDebugger from 'cannon-es-debugger' // Import Cannon.js debugger
 import * as THREE from 'three'
 
 export default class SimpleCarPhysics {
@@ -51,12 +50,6 @@ export default class SimpleCarPhysics {
                 direction: down
             })
             wheelBody.angularDamping = 0.4
-
-            // Only log the front wheel (index 2) for debugging
-            // if (index === 2) {
-            //     console.log('Initial Front Wheel Position:', position);
-            //     console.log('Initial Front Wheel Axis:', axis);
-            // }
         })
 
         this.vehicle.addToWorld(this.experience.worldPhysics.instance)
@@ -67,19 +60,15 @@ export default class SimpleCarPhysics {
         this.frontWheelMarker = new THREE.Mesh(markerGeometry, markerMaterial);
         this.scene.add(this.frontWheelMarker);
 
-        // Comment out the mesh addition to the scene
+        // Add meshes to the scene
         this.scene.add(this.simpleCar.simpleCarModel.chassisMesh)
         this.scene.add(this.simpleCar.simpleCarModel.frontWheelMesh1)
         this.scene.add(this.simpleCar.simpleCarModel.frontWheelMesh2)
         this.scene.add(this.simpleCar.simpleCarModel.rearWheelMesh1)
         this.scene.add(this.simpleCar.simpleCarModel.rearWheelMesh2)
-
-        // Add Cannon.js debugger
-        this.cannonDebugger = new CannonDebugger(this.scene, this.experience.worldPhysics.instance)
     }
 
     update() {
-        // Update the Cannon.js debugger
-        this.cannonDebugger.update()
+        // No need for debugger update here, it's in PhysicsWorld class
     }
 }
