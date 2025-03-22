@@ -4,9 +4,6 @@ import Experience  from './Experience.js'
 
 export default class PhysicsWorld {
     constructor() {
-        // this.debug = debug
-        // this.scene = scene
-
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.setWorldPhysics()
@@ -16,7 +13,6 @@ export default class PhysicsWorld {
         this.instance = new CANNON.World()
         this.instance.gravity.set(0, -9.82, 0)
         this.instance.broadphase = new CANNON.SAPBroadphase(this.instance)
-        //this.instance.allowSleep = true
         this.instance.solver.iterations = 10
 
         // Default material

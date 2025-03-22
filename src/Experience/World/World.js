@@ -3,6 +3,7 @@ import Environment from "./Environment.js";
 import Floor from "./Floor.js";
 import SimpleCar from "./SimpleCar.js";
 import SimpleCarController from "./SimpleCarController.js";
+import RampAndPlatform from "./RampAndPlatform.js"; // Add this import
 
 export default class World {
     constructor() {
@@ -13,6 +14,7 @@ export default class World {
         this.floor = new Floor()
         this.simpleCar = new SimpleCar()
         this.simpleCarController = new SimpleCarController()
+        this.rampAndPlatform = new RampAndPlatform() // Add this line
         this.environment = new Environment()
     }
 }

@@ -38,7 +38,7 @@ export default class SimpleCar {
         this.chaseCameraPivot = new THREE.Object3D()
         this.view = new THREE.Vector3()
 
-        this.chaseCamera.position.set(0, 5, -10) // Adjusted position for better view
+        this.chaseCamera.position.set(0, 5, -8) // Adjusted position for better view
         this.chaseCameraPivot.position.set(0, 0, 0)
         this.chaseCamera.add(this.chaseCameraPivot)
         this.scene.add(this.chaseCamera)
@@ -58,6 +58,7 @@ export default class SimpleCar {
         this.experience.camera.instance.position.lerp(this.view, 0.3)
         this.experience.camera.instance.lookAt(this.chassisMesh.position)
     }
+
 
     update() {
         if (this.chassisMesh) {
