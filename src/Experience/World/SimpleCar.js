@@ -83,6 +83,6 @@ export default class SimpleCar {
         this.updateChaseCamera()
 
         // Update the physics
-        this.simpleCarPhysics.update()
+        //this.simpleCarPhysics.update()
     }
 }

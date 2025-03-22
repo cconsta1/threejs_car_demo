@@ -5,7 +5,7 @@ export default class Environment {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
-        this.debug = this.experience.debug
+        //this.debug = this.experience.debug
         
         // Nintendo-style colors
         this.nintendoColors = {
@@ -16,9 +16,9 @@ export default class Environment {
             cloudColor: 0xFFFFFF     // Pure white for cartoon clouds
         }
 
-        if (this.debug.active) {
-            this.debugFolder = this.debug.gui.addFolder('environment')
-        }
+        // if (this.debug.active) {
+        //     this.debugFolder = this.debug.gui.addFolder('environment')
+        // }
 
         this.setSunLight()
         this.setNintendoSky()
@@ -53,35 +53,35 @@ export default class Environment {
         this.scene.add(hemiLight)
 
         // Debug
-        if (this.debug.active) {
-            this.debugFolder
-                .add(this.sunLight, 'intensity')
-                .name('sunLightIntensity')
-                .min(0)
-                .max(10)
-                .step(0.001)
+        // if (this.debug.active) {
+        //     this.debugFolder
+        //         .add(this.sunLight, 'intensity')
+        //         .name('sunLightIntensity')
+        //         .min(0)
+        //         .max(10)
+        //         .step(0.001)
 
-            this.debugFolder
-                .add(this.sunLight.position, 'x')
-                .name('sunLightX')
-                .min(- 5)
-                .max(5)
-                .step(0.001)
+        //     this.debugFolder
+        //         .add(this.sunLight.position, 'x')
+        //         .name('sunLightX')
+        //         .min(- 5)
+        //         .max(5)
+        //         .step(0.001)
 
-            this.debugFolder
-                .add(this.sunLight.position, 'y')
-                .name('sunLightY')
-                .min(- 5)
-                .max(5)
-                .step(0.001)
+        //     this.debugFolder
+        //         .add(this.sunLight.position, 'y')
+        //         .name('sunLightY')
+        //         .min(- 5)
+        //         .max(5)
+        //         .step(0.001)
 
-            this.debugFolder
-                .add(this.sunLight.position, 'z')
-                .name('sunLightZ')
-                .min(- 5)
-                .max(5)
-                .step(0.001)
-        }
+        //     this.debugFolder
+        //         .add(this.sunLight.position, 'z')
+        //         .name('sunLightZ')
+        //         .min(- 5)
+        //         .max(5)
+        //         .step(0.001)
+        // }
     }
 
     setNintendoSky() {
@@ -126,14 +126,14 @@ export default class Environment {
         this.sky = new THREE.Mesh(skyGeometry, skyMaterial);
         this.scene.add(this.sky);
 
-        if (this.debug.active) {
-            this.debugFolder
-                .add(this.sky.position, 'y')
-                .name('skyPositionY')
-                .min(-100)
-                .max(100)
-                .step(1)
-        }
+        // if (this.debug.active) {
+        //     this.debugFolder
+        //         .add(this.sky.position, 'y')
+        //         .name('skyPositionY')
+        //         .min(-100)
+        //         .max(100)
+        //         .step(1)
+        // }
     }
     
     addCartoonSun() {
