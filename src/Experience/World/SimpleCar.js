@@ -48,7 +48,14 @@ export default class SimpleCar {
         }
     }
 
+    // Only modify the updateChaseCamera method
+
     updateChaseCamera() {
+        // Skip chase camera updates if in testing mode
+        if (this.experience.camera.testingMode) {
+            return
+        }
+
         this.chaseCameraPivot.getWorldPosition(this.view)
 
         if (this.view.y < 1) {

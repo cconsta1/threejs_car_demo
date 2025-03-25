@@ -9,8 +9,15 @@ export default class Camera {
         this.scene = this.experience.scene
         this.canvas = this.experience.canvas
 
+        // Add testing mode flag
+        this.testingMode = false // Set to true for orbit controls, false for chase camera
+
         this.setInstance()
-        //this.setOrbitControls()
+
+        // Enable orbit controls during testing
+        if (this.testingMode) {
+            this.setOrbitControls()
+        }
     }
 
     setInstance() {
@@ -21,8 +28,8 @@ export default class Camera {
             1000
         )
 
-        this.instance.position.set(0, 4, 0)
-        this.instance.lookAt(this.scene.position)
+        this.instance.position.set(5, 10, 15) // Better initial position for viewing the car
+        this.instance.lookAt(new THREE.Vector3(5, 0, 0)) // Look at approximate car position
         this.scene.add(this.instance)
     }
 
@@ -33,6 +40,7 @@ export default class Camera {
         )
 
         this.controls.enableDamping = true
+        this.controls.target.set(5, 5, 0) // Target the car's initial position
     }
 
     resize() {
@@ -41,6 +49,9 @@ export default class Camera {
     }
 
     update() {
-        this.controls.update()
+        // Only update controls if they exist
+        if (this.testingMode && this.controls) {
+            this.controls.update()
+        }
     }
 }

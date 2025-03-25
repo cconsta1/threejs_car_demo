@@ -20,7 +20,7 @@ export default class Floor {
         this.setMaterial()
         this.setMesh()
         this.setPhysics()
-        this.addRoadMarkings()
+        //this.addRoadMarkings()
         this.createBoundaryMarkers()
     }
 

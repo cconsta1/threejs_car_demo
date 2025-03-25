@@ -190,7 +190,7 @@ export default class Environment {
         this.addCartoonClouds();
         
         // Add some distant hills in Nintendo style (optional)
-        this.addNintendoHills();
+        //this.addNintendoHills();
     }
     
     addCartoonClouds() {

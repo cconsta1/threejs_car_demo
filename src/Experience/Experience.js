@@ -29,7 +29,7 @@ export default class Experience {
         this.worldPhysics = new PhysicsWorld()
         this.camera = new Camera()
         this.renderer = new Renderer()
-        
+
         // Handle loading screen manually
         const loadingScreen = document.getElementById('loading-screen')
         setTimeout(() => {
@@ -38,9 +38,9 @@ export default class Experience {
                 event.target.remove()
             })
         }, 500)
-        
+
         this.world = new World()
-        
+
         // Access simpleCar directly from world
         if (this.world.simpleCar) {
             this.simpleCar = this.world.simpleCar
@@ -62,10 +62,13 @@ export default class Experience {
         this.renderer.resize()
     }
 
+    // Only modify the update method
+
     update() {
+        this.camera.update() // Add this line to update the orbit controls
         this.renderer.update()
         this.worldPhysics.update()
-        
+
         if (this.simpleCar) {
             this.simpleCar.update()
         }
